@@ -5,14 +5,18 @@ class Array {
 private:
 	int *arr;
 	int size;
+	int buf;
 
 public:
 	Array();  //Конструктор по умолчанию (создает массив некоторой длины по умолчанию)
-	Array(int& size);  //Конструктор по размеру (элементы инициализируются 0)
-	Array(int& size, int num);  //Конструктор по размеру и числу n (элементы инициализируются числом n)
+	Array(const int size);  //Конструктор по размеру (элементы инициализируются 0)
+	Array(const int size, const int& num);  //Конструктор по размеру и числу n (элементы инициализируются числом n)
 	Array(const Array& a);  //Конструктор копирования
-	Array(const Array&& a);  //Конструктор перемещения
+	Array(Array&& a);  //Конструктор перемещения
 	~Array();  //Деструктор 
 
+	int getSize() const; //Длинна массива
+	int& operator[](const int i); //Оператор []
+	void newSize(const int newSize); //Изменение размера 
 
 };
