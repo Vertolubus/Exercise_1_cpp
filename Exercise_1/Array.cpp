@@ -1,4 +1,5 @@
 #include "Array.h"
+#include "DifferentLengthsException.h"
 
 //Конструктор по умолчанию (создает массив некоторой длины по умолчанию)
 Array::Array() : size(1), buf(0) {
@@ -74,7 +75,11 @@ int Array::getSize() const {
 }
 
 //Оператор []
-int& Array::operator[](const int i) {
+int& Array::operator[](int i) {
+	return arr[i];
+}
+
+int& Array::operator[](int i) const{
 	return arr[i];
 }
 
@@ -105,4 +110,51 @@ void Array::newSize(const int newSize) {
 
 	delete[] this->arr;
 	arr = nullptr;
+}
+
+//Опрератор присваивания 
+Array& Array::operator=(const Array& obj) {
+	if (this == &obj) {
+		return *this;
+	}
+	int* arrCopy = new int[this->size + this->buf];
+	if (arr) {
+		delete[] arr;
+	}
+	size = obj.size;
+	arr = arrCopy;
+
+	for (int i = 0; i < size; i++) {
+		arr[i] = obj.arr[i];
+	}
+	return *this;
+}
+
+//Оператор перемещения 
+
+
+//Оператор ==
+bool Array::operator==(const Array& arr) const {
+	if () {
+		throw DifferentLengthsException("Длины массивов не совпадают");
+	}
+	for (int i = 0; i < size; i++) {
+		if () {
+			return false;
+		}
+	}
+	return true;
+}
+
+//Оператор !=
+bool Array::operator!=(const Array& arr) const {
+	if () {
+		throw DifferentLengthsException("Длины массивов не совпадают");
+	}
+	for (int i = 0; i < size; i++) {
+		if () {
+			return false;
+		}
+	}
+	return true;
 }

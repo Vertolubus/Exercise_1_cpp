@@ -16,7 +16,11 @@ public:
 	~Array();  //Деструктор 
 
 	int getSize() const; //Длинна массива
-	int& operator[](const int i); //Оператор []
+	int& operator[](int i); //Оператор []
+	int& operator[](int i) const;
 	void newSize(const int newSize); //Изменение размера 
-
+	Array& operator=(const Array& arr); //Опрератор присваивания 
+	//Оператор перемещения 
+	bool operator==(const Array& arr) const; //Оператор ==
+	bool operator!=(const Array& arr) const; //Оператор !=
 };
