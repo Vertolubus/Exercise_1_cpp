@@ -117,44 +117,113 @@ Array& Array::operator=(const Array& obj) {
 	if (this == &obj) {
 		return *this;
 	}
-	int* arrCopy = new int[this->size + this->buf];
-	if (arr) {
+	Array copy(obj);
+	std::swap(size, copy.size);
+	std::swap(buf, copy.buf);
+	std::swap(arr, copy.arr);
+	return *this;
+
+	//int* arrCopy = new int[this->size + this->buf];
+	/*if (arr) {
 		delete[] arr;
 	}
 	size = obj.size;
-	arr = arrCopy;
+	buf = obj.buf;
+	//arr = arrCopy;
 
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < size + buf; i++) {
 		arr[i] = obj.arr[i];
 	}
-	return *this;
+
+	for (int i = size; i < size + buf; i++) {
+		arr[i] = 0;
+	}*/
+	//return *this;
 }
 
 //Оператор перемещения 
-
+Array& Array::operator=(Array&& obj) {
+	if (this == &obj) {
+		return *this;
+	}
+	std::swap(size, obj.size);
+	std::swap(buf, obj.buf);
+	std::swap(arr, obj.arr);
+	return *this;
+}
 
 //Оператор ==
 bool Array::operator==(const Array& arr) const {
-	if () {
+	if (this->size != arr.size) {
 		throw DifferentLengthsException("Длины массивов не совпадают");
 	}
+
 	for (int i = 0; i < size; i++) {
-		if () {
+		if (this->arr[i] != arr.arr[i]) {
 			return false;
 		}
 	}
+
 	return true;
 }
 
 //Оператор !=
 bool Array::operator!=(const Array& arr) const {
-	if () {
+	if (this->size != arr.size) {
 		throw DifferentLengthsException("Длины массивов не совпадают");
 	}
+
 	for (int i = 0; i < size; i++) {
-		if () {
+		if (this->arr[i] == arr.arr[i]) {
 			return false;
 		}
 	}
+
 	return true;
+}
+
+//Оператор <
+bool Array::operator<(const Array& arr) const {
+
+}
+
+//Оператор <=
+bool Array::operator<=(const Array& arr) const {
+
+}
+
+//Оператор >
+bool Array::operator>(const Array& arr) const {
+
+}
+
+//Оператор >=
+bool Array::operator>=(const Array& arr) const {
+
+}
+
+//Оператор +
+Array& Array::operator+(const Array& arr) {
+
+}
+
+//Оператор ввода
+std::istream& operator>>(std::istream in, Array& arr) {
+	int size;
+	in >> size;
+	arr = Array(size);
+
+	for (int i = 0; i < size; i++) {
+		in >> arr[i];
+	}
+
+	return in;
+}
+
+//Оператор вывода
+std::ostream& operator<<(std::ostream& out, const Array& arr) {
+	for (int i = 0; i < arr.getSize(); i++) {
+		out << arr[i] << " ";
+	}
+	return out;
 }

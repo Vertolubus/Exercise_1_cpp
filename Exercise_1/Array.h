@@ -20,7 +20,16 @@ public:
 	int& operator[](int i) const;
 	void newSize(const int newSize); //Изменение размера 
 	Array& operator=(const Array& arr); //Опрератор присваивания 
-	//Оператор перемещения 
+	Array& operator=(Array&& arr); //Оператор перемещения 
 	bool operator==(const Array& arr) const; //Оператор ==
 	bool operator!=(const Array& arr) const; //Оператор !=
+	bool operator<(const Array& arr) const; //Оператор <
+	bool operator<=(const Array& arr) const; //Оператор <=
+	bool operator>(const Array& arr) const; //Оператор >
+	bool operator>=(const Array& arr) const; //Оператор >=
+	Array& operator+(const Array& arr); //Оператор +
+
 };
+
+std::istream& operator>>(std::istream in, Array& arr); //Оператор ввода
+std::ostream& operator<<(std::ostream& out, const Array& arr); //Оператор вывода
