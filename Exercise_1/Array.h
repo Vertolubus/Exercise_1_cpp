@@ -17,7 +17,7 @@ public:
 
 	int getSize() const; //Длинна массива
 	int& operator[](int i); //Оператор []
-	int& operator[](int i) const;
+	const int& operator[](int i) const;
 	void newSize(const int newSize); //Изменение размера 
 	Array& operator=(const Array& arr); //Опрератор присваивания 
 	Array& operator=(Array&& arr); //Оператор перемещения 
@@ -27,8 +27,7 @@ public:
 	bool operator<=(const Array& arr) const; //Оператор <=
 	bool operator>(const Array& arr) const; //Оператор >
 	bool operator>=(const Array& arr) const; //Оператор >=
-	Array& operator+(const Array& arr); //Оператор +
-
+	friend Array operator+(const Array& arr1, const Array& arr2); //Оператор +
 };
 
 std::istream& operator>>(std::istream in, Array& arr); //Оператор ввода

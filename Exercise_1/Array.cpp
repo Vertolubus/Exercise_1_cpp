@@ -44,6 +44,8 @@ Array::Array(const Array& arr) : size(arr.size), buf(arr.buf) {
 	for (int i = size; i < size + buf; i++) {
 		this->arr[i] = 0;
 	}
+
+	//std::cout << "Конструктор копирования" << std::endl;
 }
 
 //Конструктор перемещения
@@ -61,6 +63,8 @@ Array::Array(Array&& arr) : size(arr.size), buf(arr.buf) {
 	arr.size = 0;
 	arr.buf = 0;
 	arr.arr = nullptr;
+
+	std::cout << "Конструктор перемещения" << std::endl;
 }
 
 //Деструктор 
@@ -79,7 +83,7 @@ int& Array::operator[](int i) {
 	return arr[i];
 }
 
-int& Array::operator[](int i) const{
+const int& Array::operator[](int i) const{
 	return arr[i];
 }
 
@@ -110,6 +114,8 @@ void Array::newSize(const int newSize) {
 
 	delete[] this->arr;
 	arr = nullptr;
+	this->arr = arrCopy;
+	this->size = newSize;
 }
 
 //Опрератор присваивания 
@@ -149,7 +155,11 @@ Array& Array::operator=(Array&& obj) {
 	std::swap(size, obj.size);
 	std::swap(buf, obj.buf);
 	std::swap(arr, obj.arr);
+	obj.arr = nullptr;
+	obj.size = 0;
+	obj.buf = 0;
 	return *this;
+	std::cout << "Оператор перемещения" << std::endl;
 }
 
 //Оператор ==
@@ -158,7 +168,11 @@ bool Array::operator==(const Array& arr) const {
 		throw DifferentLengthsException("Длины массивов не совпадают");
 	}
 
-	for (int i = 0; i < size; i++) {
+	if (this == &arr) {
+		return true;
+	}
+
+	for (int i = 0; i < this->size; i++) {
 		if (this->arr[i] != arr.arr[i]) {
 			return false;
 		}
@@ -173,7 +187,11 @@ bool Array::operator!=(const Array& arr) const {
 		throw DifferentLengthsException("Длины массивов не совпадают");
 	}
 
-	for (int i = 0; i < size; i++) {
+	if (this == &arr) {
+		return false;
+	}
+
+	for (int i = 0; i < this->size; i++) {
 		if (this->arr[i] == arr.arr[i]) {
 			return false;
 		}
@@ -184,27 +202,91 @@ bool Array::operator!=(const Array& arr) const {
 
 //Оператор <
 bool Array::operator<(const Array& arr) const {
+	if (this == &arr) {
+		return false;
+	}
 
+	if (this->size < arr.size) {
+		return true;
+	}
+
+	for (int i = 0; i < this->size; i++) {
+		if (this->arr[i] > arr[i]) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 //Оператор <=
 bool Array::operator<=(const Array& arr) const {
+	if (this == &arr) {
+		return true;
+	}
 
+	if (this->size < arr.size) {
+		return true;
+	}
+
+	for (int i = 0; i < this->size; i++) {
+		if (this->arr[i] > arr[i]) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 //Оператор >
 bool Array::operator>(const Array& arr) const {
+	if (this == &arr) {
+		return false;
+	}
 
+	if (this->size > arr.size) {
+		return true;
+	}
+
+	for (int i = 0; i < this->size; i++) {
+		if (this->arr[i] < arr[i]) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 //Оператор >=
 bool Array::operator>=(const Array& arr) const {
+	if (this == &arr) {
+		return true;
+	}
 
+
+	if (this->size > arr.size) {
+		return true;
+	}
+
+	for (int i = 0; i < this->size; i++) {
+		if (this->arr[i] < arr[i]) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 //Оператор +
-Array& Array::operator+(const Array& arr) {
-
+Array operator+(const Array& arr1, const Array& arr2) {
+	Array newArr = Array(arr1.getSize() + arr2.getSize());
+	for (int i = 0; i < arr1.getSize(); i++) {
+		newArr[i] = arr1[i];
+	}
+	for (int i = arr1.getSize(); i < arr2.getSize() + arr1.getSize(); i++) {
+		newArr[i] = arr2[i - arr1.getSize()];
+	}
+	return newArr;
 }
 
 //Оператор ввода
